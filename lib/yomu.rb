@@ -10,6 +10,7 @@ require 'stringio'
 class Yomu
   GEMPATH = File.dirname(File.dirname(__FILE__))
   JARPATH = File.join(Yomu::GEMPATH, 'jar', 'tika-app-1.28.5.jar')
+  CONFIG_PATH = File.join(Yomu::GEMPATH, 'jar', 'tika-config.xml')
   DEFAULT_SERVER_PORT = 9293 # an arbitrary, but perfectly cromulent, port
 
   @@server_port = nil
@@ -48,7 +49,7 @@ class Yomu
       '-m -j'
     end
 
-    IO.popen "#{java} -Djava.awt.headless=true -jar #{Yomu::JARPATH} #{switch}", 'r+' do |io|
+    IO.popen "#{java} -Djava.awt.headless=true -jar #{Yomu::JARPATH} --config=#{Yomu::CONFIG_PATH} #{switch}", 'r+' do |io|
       io.write data
       io.close_write
       io.read
